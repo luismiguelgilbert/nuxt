@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { AtSign, KeySquare, LogIn, DatabaseZap } from "lucide-vue-next";
+import { LogIn, DatabaseZap } from "lucide-vue-next";
 
 definePageMeta({
   layout: 'empty'
@@ -8,9 +8,9 @@ definePageMeta({
 
 <template>
   <div class="w-full sm:grid sm:grid-cols-2 sm:min-h-[calc(100dvh)] px-5 sm:px-0">
-    <div class="flex items-center justify-center py-2 sm:py-12">
+    <div class="flex items-center justify-center sm:py-12">
       <div class="mx-auto grid w-[350px] gap-6">
-        <Card class="w-[350px] mt-12 md:mt-0" >
+        <Card class="w-[350px] mt-0 md:mt-12 border-0 md:border shadow-none md:shadow" >
           <CardHeader>
             <CardTitle>Bienvenido a Framework</CardTitle>
             <CardDescription>Ingrese sus credencial para continuar</CardDescription>
@@ -19,26 +19,20 @@ definePageMeta({
             <div
               id="signin-form"
               class="padding-safe grid gap-4">
-              <div class="grid gap-2 gap-y-5">
+              <form class="grid gap-2 gap-y-5">
                 <div class="grid w-full max-w-sm items-center gap-1.5">
                   <Label for="user_name">Usuario</Label>
                   <div class="relative w-full max-w-sm items-center">
-                    <Input type="text" name="email" class="pl-10" />
-                    <span class="absolute start-0 inset-y-0 flex items-center justify-center px-2">
-                      <AtSign class="size-6 text-muted-foreground" />
-                    </span>
+                    <Input type="text" name="email" autocomplete="username" />
                   </div>
                 </div>
                 <div class="grid w-full max-w-sm items-center gap-1.5">
                   <Label for="user_name">Contrase&#241;a</Label>
                   <div class="relative w-full max-w-sm items-center">
-                    <Input id="search" type="password" name="password" class="pl-10" />
-                    <span class="absolute start-0 inset-y-0 flex items-center justify-center px-2">
-                      <KeySquare class="size-6 text-muted-foreground" />
-                    </span>
+                    <Input id="search" type="password" name="password" autocomplete="current-password" />
                   </div>
                 </div>
-              </div>
+              </form>
   
               <Button
                 class="h-12 w-full mt-2 cursor-pointer justify-between"
