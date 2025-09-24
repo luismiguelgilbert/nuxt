@@ -1,5 +1,22 @@
+<script setup lang="ts">
+
+</script>
+
 <template>
-  <Button @click="navigateTo('/login')">
-    Logout
-  </Button>
+  <div>
+		<div class="flex flex-1 flex-col gap-4">
+			<p>Homepage goes here...</p>
+      <Button @click="navigateTo('/login')">
+        Logout
+      </Button>
+			<div class="grid auto-rows-min gap-4 md:grid-cols-3">
+				<div class="aspect-video rounded-xl bg-muted/90" />
+				<div class="aspect-video rounded-xl bg-muted/90" />
+				<div class="aspect-video rounded-xl bg-muted/90" />
+			</div>
+			<div class="min-h-[100dvh] flex-1 rounded-xl bg-muted/90" />
+		</div>
+		<br>
+		<br>
+	</div>
 </template>

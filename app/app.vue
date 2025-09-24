@@ -1,5 +1,17 @@
+<script setup lang="ts">
+
+</script>
+
 <template>
-  <div>
+  <NuxtLayout>
     <NuxtPage />
-  </div>
+  </NuxtLayout>
 </template>
+
+<style>
+html, body, #__nuxt, #__layout {
+  height: 100%;
+  margin: 0;
+  overscroll-behavior: none;
+}
+</style>
