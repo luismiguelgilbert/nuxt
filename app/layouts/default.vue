@@ -34,7 +34,7 @@ const items = [
 
 <template>
   <SidebarProvider>
-    <Sidebar>
+    <Sidebar collapsible="icon">
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>Application</SidebarGroupLabel>
@@ -42,7 +42,7 @@ const items = [
             <SidebarMenu>
                 <SidebarMenuItem v-for="item in items" :key="item.title">
                   <SidebarMenuButton asChild>
-                      <a :href="item.url">
+                      <a :href="item.url" :tooltip="item.title">
                         <component :is="item.icon" />
                         <span>{{item.title}}</span>
                       </a>
