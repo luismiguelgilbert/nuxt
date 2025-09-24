@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-vue-next"
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { Calendar, Home, Inbox, Search, Settings } from "lucide-vue-next";
+import { SidebarProvider, SidebarTrigger, SidebarRail } from "@/components/ui/sidebar";
 
-// Menu items.
+// Menu items
 const items = [
   {
     title: "Home",
@@ -34,14 +34,16 @@ const items = [
 
 <template>
   <SidebarProvider>
-    <Sidebar collapsible="icon">
+    <Sidebar collapsible="icon" variant="sidebar"  >
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
                 <SidebarMenuItem v-for="item in items" :key="item.title">
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton
+                    asChild
+                    :isActive="item.url === useRoute().path">
                     <NuxtLink
                       class="flex items-center gap-2"
                       :to="item.url"
@@ -55,6 +57,7 @@ const items = [
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarRail />
     </Sidebar>
     <SidebarInset>
       <header
@@ -66,10 +69,7 @@ const items = [
           </div>
           <div class="flex items-center gap-2">
             <Colortoggle />
-            <!--
-              <ModeToggle />
-              <UserDropdown />
-            -->
+            <!--<UserDropdown />-->
           </div>
         </div>
       </header>
@@ -77,10 +77,6 @@ const items = [
         <NuxtPage />
       </main>
     </SidebarInset>
-    <!-- <main class="w-full">
-      <SidebarTrigger />
-      <NuxtPage />
-    </main> -->
   </SidebarProvider>
 </template>
 
