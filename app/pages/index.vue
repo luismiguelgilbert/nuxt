@@ -1,5 +1,16 @@
 <script setup lang="ts">
+// working
+// "display": "standalone",
+// "theme_color": "#000000",
+// "background_color": "#FF0000",
 
+// working
+// "display": "fullscreen", // working
+// "theme_color": "#000000",
+// "background_color": "#FF0000",
+
+// removing, does it work?
+// { name: 'apple-mobile-web-app-status-bar-style', content: 'black-translucent' }, // NOT WORKING
 </script>
 
 <template>
