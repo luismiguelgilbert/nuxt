@@ -69,7 +69,7 @@ const items = [
           </div>
           <div class="flex items-center gap-2">
             <Colortoggle />
-            <!--<UserDropdown />-->
+            <BlocksUserDropdown />
           </div>
         </div>
       </header>
