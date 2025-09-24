@@ -1,3 +1,5 @@
 <template>
-  <Button>Button</Button>
+  <Button @click="navigateTo('/login')">
+    Logout
+  </Button>
 </template>
