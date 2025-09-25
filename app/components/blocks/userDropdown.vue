@@ -11,49 +11,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-interface User {
-  user: {
-    id: string;
-    name: string;
-    image?: string | null | undefined | undefined;
-    email: string;
-    createdAt: string;
-    updatedAt: string;
-    emailVerified: boolean;
-  };
-  session: {
-    id: string;
-    createdAt: string;
-    updatedAt: string;
-    userId: string;
-    expiresAt: string;
-    token: string;
-    ipAddress?: string | null | undefined | undefined;
-    userAgent?: string | null | undefined | undefined;
-  };
-}
-const session = ref<User>();
+const session = useState<Session | undefined>('session');
 const userInitials = computed<string>(() => session.value?.user.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) || 'NA');
-
-// Fetch session without blocking rendering
-try {
-  useFetch('/api/auth/session', {
-    method: 'GET',
-    headers: useRequestHeaders(['cookie'])
-  }).then(({ data, error }) => {
-    if (error.value || !data.value?.user.id) {
-      navigateTo('/login?invalid_session=true');
-      return;
-    }
-    session.value = {
-      user: data.value.user,
-      session: data.value.session,
-    };
-  });
-} catch (error) {
-  console.error('Error fetching session:', error);
-  await navigateTo('/login?invalid_session=true');
-}
 
 const closeSession = async () => {
   try {

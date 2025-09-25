@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { signIn } from '@/lib/auth-client';
 import { DatabaseZap, LogIn, Loader  } from "lucide-vue-next";
-
+import { toast } from 'vue-sonner';
 definePageMeta({
   layout: 'empty'
 });
@@ -24,7 +24,10 @@ const login = async () => {
     status.value = false;
   }
 };
-  
+
+if (useRoute().query.invalid_session) {
+  toast('Sesión inválida', { description: 'Ingrese sus credenciales para continuar.' });
+}
 </script>
 
 <template>
@@ -71,13 +74,6 @@ const login = async () => {
                 @click="login">
                 <Loader v-if="status" class="animate-spin size-6" />
                 Ingresar
-                <LogIn name="i-lucide-log-in" class="size-6" />
-              </Button>
-              <Button
-                v-if="$route.query.invalid_session"
-                variant="destructive"
-                class="h-12 w-full mt-2 cursor-pointer justify-between">
-                Error
                 <LogIn name="i-lucide-log-in" class="size-6" />
               </Button>
               <!-- <p>Don't have an account? <a href="/signup">Sign up here</a>.</p> -->

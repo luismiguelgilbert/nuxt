@@ -90,6 +90,9 @@ How I fixed...
 { name: 'apple-mobile-web-app-capable', content: 'yes' },
 - Added public/site.webmanifest
 
+* Components:
+- [SidebarRail] generates weird effect on hover (when collapsed)
+
 AUTHENTICATION:
 - I'm using Better Auth
 - The CLI connects to the Postgres DB (defined here: src/lib/auth.ts) and creates the tables

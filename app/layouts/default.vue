@@ -1,34 +1,31 @@
 <script setup lang="ts">
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-vue-next";
-import { SidebarProvider, SidebarTrigger, SidebarRail } from "@/components/ui/sidebar";
+import { Building2, CircleUserRound, Home, Inbox, UsersRound } from "lucide-vue-next";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
-// Menu items
-const items = [
+
+const session = useState<Session | undefined>('session');
+useFetch('/api/auth/session', { method: 'GET', headers: useRequestHeaders(['cookie']) })
+  .then(async (response) => {
+    if (!response.data.value?.user?.id) await navigateTo('/login?invalid_session=true');
+    session.value = response.data.value;
+});
+
+const menu = [
   {
-    title: "Home",
-    url: "/",
-    icon: Home,
+    title: 'Application',
+    items: [
+      { title: 'Inicio', url: '/', icon: Home },
+      { title: 'Notificaciones', url: '/notifications', icon: Inbox },
+    ]
   },
   {
-    title: "Inbox",
-    url: "/login",
-    icon: Inbox,
-  },
-  {
-    title: "Calendar",
-    url: "/",
-    icon: Calendar,
-  },
-  {
-    title: "Search",
-    url: "/",
-    icon: Search,
-  },
-  {
-    title: "Settings",
-    url: "/login",
-    icon: Settings,
-  },
+    title: 'Sistema',
+    items: [
+      { title: 'Usuarios', url: '/system/users', icon: UsersRound },
+      { title: 'Roles', url: '/system/roles', icon: CircleUserRound },
+      { title: 'Organizaciones', url: '/system/organizations', icon: Building2 },
+    ]
+  }
 ];
 </script>
 
@@ -36,28 +33,29 @@ const items = [
   <SidebarProvider>
     <Sidebar collapsible="icon" variant="sidebar"  >
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
+        <SidebarGroup v-for="(group) in menu" :key="group.title">
+          <SidebarGroupLabel>{{ group.title }}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-                <SidebarMenuItem v-for="item in items" :key="item.title">
-                  <SidebarMenuButton
-                    asChild
-                    :isActive="item.url === useRoute().path">
-                    <NuxtLink
-                      class="flex items-center gap-2"
-                      :to="item.url"
-                      :tooltip="item.title">
-                      <component :is="item.icon" />
-                      <span>{{item.title}}</span>
-                    </NuxtLink>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
+              <SidebarMenuItem v-for="menuItem in menu.filter(g => g.title === group.title)" :key="menuItem.title">
+                <SidebarMenuButton
+                  v-for="item in menuItem.items"
+                  asChild
+                  :isActive="item.url === useRoute().path"
+                  class="mb-0.5">
+                  <NuxtLink
+                    class="flex items-center gap-2"
+                    :to="item.url"
+                    :tooltip="item.title">
+                    <component :is="item.icon" />
+                    <span>{{item.title}}</span>
+                  </NuxtLink>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarRail />
     </Sidebar>
     <SidebarInset>
       <header

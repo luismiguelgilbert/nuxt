@@ -1,5 +1,7 @@
 <script setup lang="ts">
-const colorMode = useColorMode();
+import { Toaster } from '@/components/ui/sonner';
+import 'vue-sonner/style.css' // vue-sonner v2 requires this import
+useColorMode();
 
 useHead({
   meta: [
@@ -62,6 +64,7 @@ useHead({
   <NuxtLayout>
     <NuxtPage />
   </NuxtLayout>
+  <Toaster />
 </template>
 
 <style>

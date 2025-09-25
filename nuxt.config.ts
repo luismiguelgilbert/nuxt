@@ -15,6 +15,9 @@ export default defineNuxtConfig({
     'shadcn-nuxt',
     '@nuxtjs/color-mode',
   ],
+  imports: {
+    dirs: ['../types']
+  },
   shadcn: {
     prefix: '',
     componentDir: './app/components/ui'
