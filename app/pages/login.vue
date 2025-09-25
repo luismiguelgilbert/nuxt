@@ -1,9 +1,30 @@
 <script setup lang="ts">
-import { LogIn, DatabaseZap } from "lucide-vue-next";
+import { signIn } from '@/lib/auth-client';
+import { DatabaseZap, LogIn, Loader  } from "lucide-vue-next";
 
 definePageMeta({
   layout: 'empty'
-})
+});
+
+const status = ref<boolean>(false);
+const credentials = ref({
+  email: '',
+  password: '',
+  callbackURL: '/',
+});
+
+
+const login = async () => {
+  try {
+    status.value = true;
+    await signIn.email(credentials.value);
+  } catch (error) {
+    console.error('Error during login:', error);
+  } finally {
+    status.value = false;
+  }
+};
+  
 </script>
 
 <template>
@@ -23,21 +44,40 @@ definePageMeta({
                 <div class="grid w-full max-w-sm items-center gap-1.5">
                   <Label for="user_name">Usuario</Label>
                   <div class="relative w-full max-w-sm items-center">
-                    <Input type="text" name="email" autocomplete="username" />
+                    <Input
+                      v-model="credentials.email"
+                      type="text"
+                      name="email"
+                      autocomplete="username"
+                      :disabled="status" />
                   </div>
                 </div>
                 <div class="grid w-full max-w-sm items-center gap-1.5">
                   <Label for="user_name">Contrase&#241;a</Label>
                   <div class="relative w-full max-w-sm items-center">
-                    <Input id="search" type="password" name="password" autocomplete="current-password" />
+                    <Input
+                      v-model="credentials.password"
+                      type="password"
+                      name="password"
+                      autocomplete="current-password"
+                      :disabled="status" />
                   </div>
                 </div>
               </form>
   
               <Button
                 class="h-12 w-full mt-2 cursor-pointer justify-between"
-                @click="navigateTo('/')">
+                :disabled="status"
+                @click="login">
+                <Loader v-if="status" class="animate-spin size-6" />
                 Ingresar
+                <LogIn name="i-lucide-log-in" class="size-6" />
+              </Button>
+              <Button
+                v-if="$route.query.invalid_session"
+                variant="destructive"
+                class="h-12 w-full mt-2 cursor-pointer justify-between">
+                Error
                 <LogIn name="i-lucide-log-in" class="size-6" />
               </Button>
               <!-- <p>Don't have an account? <a href="/signup">Sign up here</a>.</p> -->
