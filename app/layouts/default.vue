@@ -2,13 +2,14 @@
 import { Building2, CircleUserRound, Home, Inbox, UsersRound } from "lucide-vue-next";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
-
 const session = useState<Session | undefined>('session');
 useFetch('/api/auth/session', { method: 'GET', headers: useRequestHeaders(['cookie']) })
   .then(async (response) => {
     if (!response.data.value?.user?.id) await navigateTo('/login?invalid_session=true');
     session.value = response.data.value;
 });
+
+const theSidebarTrigger = useTemplateRef('theSidebarTrigger');
 
 const menu = [
   {
@@ -46,7 +47,8 @@ const menu = [
                   <NuxtLink
                     class="flex items-center gap-2"
                     :to="item.url"
-                    :tooltip="item.title">
+                    :tooltip="item.title"
+                    @click="theSidebarTrigger?.closeMobileDrawer">
                     <component :is="item.icon" />
                     <span>{{item.title}}</span>
                   </NuxtLink>
@@ -62,8 +64,10 @@ const menu = [
         class="padding-safe my-header flex h-16 shrink-0 fixed border-b dark:border-b-neutral-800 bg-white dark:bg-zinc-900">
         <div class="flex w-full p-2 items-center justify-between">
           <div class="flex items-center gap-2">
-            <SidebarTrigger class="cursor-pointer" />
-            Titulo?
+            <SidebarTrigger
+              ref="theSidebarTrigger"
+              class="cursor-pointer" />
+            <!-- Titulo?-->
           </div>
           <div class="flex items-center gap-2">
             <Colortoggle />

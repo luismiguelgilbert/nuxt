@@ -7,7 +7,14 @@ const props = defineProps<{
   class?: HTMLAttributes["class"]
 }>()
 
-const { toggleSidebar } = useSidebar()
+const { open, openMobile } = useSidebar();
+const toggleSidebar = () => {
+  open.value = !open.value;
+  openMobile.value = !openMobile.value
+};
+const closeMobileDrawer = () => openMobile.value = false;
+
+defineExpose({ toggleSidebar, closeMobileDrawer });
 </script>
 
 <template>
