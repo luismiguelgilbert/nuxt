@@ -1,6 +1,13 @@
 <script setup lang="ts">
-import { Building2, CircleUserRound, Home, Inbox, UsersRound } from "lucide-vue-next";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { sidebarMenuList } from '~~/types/Menu';
+
+
+// sidebarMenuList
+// const stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(sidebarMenuList));
+// const stringifiedHeader = window.crypto.enc.Utf8.parse(JSON.stringify(sidebarMenuList));
+// console.log(stringifiedHeader);
+
 
 const session = useState<Session | undefined>('session');
 useFetch('/api/auth/session', { method: 'GET', headers: useRequestHeaders(['cookie']) })
@@ -10,35 +17,17 @@ useFetch('/api/auth/session', { method: 'GET', headers: useRequestHeaders(['cook
 });
 
 const theSidebarTrigger = useTemplateRef('theSidebarTrigger');
-
-const menu = [
-  {
-    title: 'Application',
-    items: [
-      { title: 'Inicio', url: '/', icon: Home },
-      { title: 'Notificaciones', url: '/notifications', icon: Inbox },
-    ]
-  },
-  {
-    title: 'Sistema',
-    items: [
-      { title: 'Usuarios', url: '/system/users', icon: UsersRound },
-      { title: 'Roles', url: '/system/roles', icon: CircleUserRound },
-      { title: 'Organizaciones', url: '/system/organizations', icon: Building2 },
-    ]
-  }
-];
 </script>
 
 <template>
   <SidebarProvider>
     <Sidebar collapsible="icon" variant="sidebar"  >
       <SidebarContent>
-        <SidebarGroup v-for="(group) in menu" :key="group.title">
+        <SidebarGroup v-for="(group) in sidebarMenuList" :key="group.title">
           <SidebarGroupLabel>{{ group.title }}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              <SidebarMenuItem v-for="menuItem in menu.filter(g => g.title === group.title)" :key="menuItem.title">
+              <SidebarMenuItem v-for="menuItem in sidebarMenuList.filter(g => g.title === group.title)" :key="menuItem.title">
                 <SidebarMenuButton
                   v-for="item in menuItem.items"
                   asChild
