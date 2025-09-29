@@ -1,33 +1,37 @@
 <script setup lang="ts">
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { sidebarMenuList } from '~~/types/Menu';
-
-
-// sidebarMenuList
-// const stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(sidebarMenuList));
-// const stringifiedHeader = window.crypto.enc.Utf8.parse(JSON.stringify(sidebarMenuList));
-// console.log(stringifiedHeader);
-
-
-const session = useState<Session | undefined>('session');
-useFetch('/api/auth/session', { method: 'GET', headers: useRequestHeaders(['cookie']) })
-  .then(async (response) => {
-    if (!response.data.value?.user?.id) await navigateTo('/login?invalid_session=true');
-    session.value = response.data.value;
-});
+import { getSession } from '@/lib/auth-client';
 
 const theSidebarTrigger = useTemplateRef('theSidebarTrigger');
+const session = useState<Session | undefined>('session');
+const computedMenu = computed(() => {
+  const groups = sidebarMenuList.map(group => {
+    return {
+      ...group,
+      items: group.items.filter(x => !x.id || session.value?.roles.includes(x.id))
+    }
+  });
+  
+  return groups.filter(x => x.items.length > 0);
+})
+
+getSession().then((algo) => {
+  //@ts-expect-error session is custom
+  session.value = algo.data;
+})
+
 </script>
 
 <template>
   <SidebarProvider>
     <Sidebar collapsible="icon" variant="sidebar"  >
       <SidebarContent>
-        <SidebarGroup v-for="(group) in sidebarMenuList" :key="group.title">
+        <SidebarGroup v-for="(group) in computedMenu" :key="group.title">
           <SidebarGroupLabel>{{ group.title }}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              <SidebarMenuItem v-for="menuItem in sidebarMenuList.filter(g => g.title === group.title)" :key="menuItem.title">
+              <SidebarMenuItem v-for="menuItem in computedMenu.filter(g => g.title === group.title)" :key="menuItem.title">
                 <SidebarMenuButton
                   v-for="item in menuItem.items"
                   asChild

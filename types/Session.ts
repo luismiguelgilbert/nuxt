@@ -18,4 +18,5 @@ export interface Session {
     ipAddress?: string | null | undefined | undefined;
     userAgent?: string | null | undefined | undefined;
   };
+  roles: string[];
 }

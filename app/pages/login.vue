@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { signIn } from '@/lib/auth-client';
-import { DatabaseZap, LogIn, Loader  } from "lucide-vue-next";
+import { DatabaseZap, LogIn, Loader } from "lucide-vue-next";
 import { toast } from 'vue-sonner';
 definePageMeta({
   layout: 'empty'
@@ -12,8 +12,6 @@ const credentials = ref({
   password: '',
   callbackURL: '/',
 });
-
-
 const login = async () => {
   try {
     status.value = true;
