@@ -16,5 +16,8 @@ export const auth = betterAuth({
     enabled: true,
     requireEmailVerification: false,
   },
+  advanced: {
+    cookiePrefix: 'bitt'
+  }
   // trustedOrigins: ['http://localhost:4321', 'http://192.168.68.64:4321']
 });

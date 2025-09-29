@@ -23,6 +23,6 @@ export default defineNuxtConfig({
     componentDir: './app/components/ui'
   },
   routeRules: {
-    '/login': { prerender: true }
+    '/login': { prerender: true },
   }
 })
