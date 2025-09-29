@@ -15,7 +15,20 @@ const computedMenu = computed(() => {
   });
   
   return groups.filter(x => x.items.length > 0);
-})
+});
+const routeTitle = computed(() => {
+  let result = '';
+  for (let group of computedMenu.value) {
+    for (let item of group.items) {
+      if (item.url === useRoute().path) {
+        result = item.title;
+        break;
+      }
+    }
+  }
+  
+  return result;
+});
 const isLoading = ref<boolean>(false);
 
 isLoading.value = true;
@@ -65,7 +78,7 @@ getSession().then((algo) => {
             <SidebarTrigger
               ref="theSidebarTrigger"
               class="cursor-pointer" />
-            <!-- Titulo?-->
+            {{ routeTitle }}
           </div>
           <div class="flex items-center gap-2">
             <Colortoggle />
