@@ -2,6 +2,7 @@
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { sidebarMenuList } from '~~/types/Menu';
 import { getSession } from '@/lib/auth-client';
+import {Loader} from "lucide-vue-next";
 
 const theSidebarTrigger = useTemplateRef('theSidebarTrigger');
 const session = useState<Session | undefined>('session');
@@ -15,10 +16,13 @@ const computedMenu = computed(() => {
   
   return groups.filter(x => x.items.length > 0);
 })
+const isLoading = ref<boolean>(false);
 
+isLoading.value = true;
 getSession().then((algo) => {
   //@ts-expect-error session is custom
   session.value = algo.data;
+  isLoading.value = false;
 })
 
 </script>
@@ -50,6 +54,7 @@ getSession().then((algo) => {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+        <Loader v-if="isLoading" class="animate-spin size-6 w-full" />
       </SidebarContent>
     </Sidebar>
     <SidebarInset>
